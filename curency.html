@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Currency Exchange</title>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+
+            document.querySelector('form').onsubmit = function() {
+            fetch('https://economia.awesomeapi.com.br/last/USD-BRL,EUR-BRL,BTC-BRL')
+            .then(response => response.json())
+            .then(data => {
+                console.log(data)
+                const currency = document.querySelector('#currency').value.toLowerCase()
+                const correncyBRL= data.USDBRL[currency]
+                if(correncyBRL !== undefined) {
+                    document.querySelector('#result').innerHTML = `A ultima compra do dollar foi de ${correncyBRL} convertido para real ${currency}`
+                } else {
+                    document.querySelector('#result').innerHTML = 'Invalid currency'
+                }
+            })    
+            .catch(error => {
+                console.log("Error:", error)
+            })
+
+                return false
+            }
+
+        })
+    </script>
+</head>
+<body>
+    <form >
+        <input id="currency" placeholder="Currency" type="">
+        <input type="submit" value="Convert">
+    </form>
+    <div id="result">
+
+    </div>
+</body>
+</html>
